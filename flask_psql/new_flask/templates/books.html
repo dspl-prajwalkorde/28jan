@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <style>
+        table { border-collapse: collapse; width: 80%; margin: 20px auto; }
+        th, td { border: 2px solid #ccc; padding: 8px; text-align: left; }
+        th a { text-decoration: none; color: black; }
+        form { text-align: center; margin-bottom: 20px; }
+        .pagination { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Book List</h2>
+
+    <!-- FILTER FORM -->
+    <form method="get">
+        <input name="title" placeholder="Filter by title" value="{{ filter_title }}">
+        <input name="author" placeholder="Filter by author" value="{{ filter_author }}">
+        <input type="hidden" name="sort" value="{{ sort_field }}">
+        <input type="hidden" name="order" value="{{ sort_order }}">
+        <input type="hidden" name="limit" value="{{ limit }}">
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- BOOK TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th><a href="?sort=id&order={{ 'desc' if sort_field=='id' and sort_order=='asc' else 'asc' }}&title={{ filter_title }}&author={{ filter_author }}&limit={{ limit }}">ID</a></th>
+                <th><a href="?sort=title&order={{ 'desc' if sort_field=='title' and sort_order=='asc' else 'asc' }}&title={{ filter_title }}&author={{ filter_author }}&limit={{ limit }}">Title</a></th>
+                <th><a href="?sort=author&order={{ 'desc' if sort_field=='author' and sort_order=='asc' else 'asc' }}&title={{ filter_title }}&author={{ filter_author }}&limit={{ limit }}">Author</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="?page={{ page-1 }}&limit={{ limit }}&sort={{ sort_field }}&order={{ sort_order }}&title={{ filter_title }}&author={{ filter_author }}">Prev</a>
+        {% endif %}
+
+        Page {{ page }} of {{ (total // limit) + (1 if total % limit else 0) }}
+
+        {% if page * limit < total %}
+        <a href="?page={{ page+1 }}&limit={{ limit }}&sort={{ sort_field }}&order={{ sort_order }}&title={{ filter_title }}&author={{ filter_author }}">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
