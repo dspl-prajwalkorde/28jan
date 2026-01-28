@@ -1,0 +1,27 @@
+--- STEP 1: PRE-REQUISITES (UBUNTU TERMINAL) ---
+Run these commands to install Python, Postgres, and libraries:
+
+1. Update system:
+   $ sudo apt update
+
+2. Install dependencies:
+   $ sudo apt install postgresql postgresql-contrib libpq-dev
+
+3. Setup Database (Switch to postgres user):
+   $ sudo -i -u postgres
+   $ psql
+
+4. SQL Commands (Inside psql shell):
+   postgres=# ALTER USER postgres PASSWORD 'password';
+   postgres=# CREATE DATABASE testdb;
+   postgres=# \q
+   $ exit
+******************************************************
+1.  Install Libraries:
+   $ pip install flask flask-sqlalchemy psycopg2-binary
+
+2. Run App (Terminal 1):
+   $ python3 app.py
+
+3. Run Tests (Terminal 2):
+   $ python3 test_app.py
